@@ -3,40 +3,50 @@ from oauth2client.client import SignedJwtAssertionCredentials
 import gspread
 from pybars import Compiler
 
-# This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
-json_key = json.load(open('firstcontacttest-a5b639f44275.json'))
-scope = ['https://spreadsheets.google.com/feeds']
+def main():
+    locationData = loadNameValueDataFromSheet("Test HTML Generation", "A2:B14")
 
-credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
+    print renderTemplate("templates/testTemplate.html", locationData)
 
-gc = gspread.authorize(credentials)
+def loadNameValueDataFromSheet(sheetName, cellRange):
 
-wks = gc.open("Test HTML Generation").sheet1
+    # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
+    json_key = json.load(open('firstcontacttest-a5b639f44275.json'))
+    scope = ['https://spreadsheets.google.com/feeds']
 
-cell_list = wks.range('A2:B14')
+    credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
 
-rowLength = 2
-rows = len(cell_list) / rowLength
+    gc = gspread.authorize(credentials)
 
-locationData = {}
+    wks = gc.open(sheetName).sheet1
 
-for rowIndex in range(0,rows):
-    print "name: " + cell_list[rowIndex * rowLength + 0].value
-    print "value: " + cell_list[rowIndex * rowLength + 1].value
-    locationData[cell_list[rowIndex * rowLength + 0].value] = cell_list[rowIndex * rowLength + 1].value
+    cell_list = wks.range(cellRange)
 
-handlebarsCompiler = Compiler()
+    rowLength = 2
+    rows = len(cell_list) / rowLength
 
-templateFilename = "templates/testTemplate.html"
+    locationData = {}
 
-import codecs
-f = codecs.open(templateFilename, encoding='utf-8')
-templateString = f.read()
+    for rowIndex in range(0,rows):
+        print "name: " + cell_list[rowIndex * rowLength + 0].value
+        print "value: " + cell_list[rowIndex * rowLength + 1].value
+        locationData[cell_list[rowIndex * rowLength + 0].value] = cell_list[rowIndex * rowLength + 1].value
 
-handlebarsTemplate = handlebarsCompiler.compile(templateString)
+    return locationData
 
-# remember functionality of helpers and partials
-# see https://github.com/wbond/pybars3
-output = handlebarsTemplate(locationData)
+def renderTemplate(templateFileName, nameValueData):
+    handlebarsCompiler = Compiler()
 
-print(output)
+    import codecs
+    f = codecs.open(templateFileName, encoding='utf-8')
+    templateString = f.read()
+
+    handlebarsTemplate = handlebarsCompiler.compile(templateString)
+
+    # remember functionality of helpers and partials
+    # see https://github.com/wbond/pybars3
+    output = handlebarsTemplate(nameValueData)
+
+    return output
+
+main()
