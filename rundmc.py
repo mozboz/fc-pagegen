@@ -13,42 +13,30 @@ gc = gspread.authorize(credentials)
 
 wks = gc.open("Test HTML Generation").sheet1
 
-cell_list = wks.range('A1:B4')
+cell_list = wks.range('A2:B14')
 
-# Data acquired from spreadsheet. Render into template here
-print cell_list
+rowLength = 2
+rows = len(cell_list) / rowLength
 
+locationData = {}
 
+for rowIndex in range(0,rows):
+    print "name: " + cell_list[rowIndex * rowLength + 0].value
+    print "value: " + cell_list[rowIndex * rowLength + 1].value
+    locationData[cell_list[rowIndex * rowLength + 0].value] = cell_list[rowIndex * rowLength + 1].value
 
-# Get a compiler
-compiler = Compiler()
+handlebarsCompiler = Compiler()
 
-# Compile the template
-source = u"{{>header}}{{#list people}}{{firstName}} {{lastName}}{{/list}}"
-template = compiler.compile(source)
+templateFilename = "templates/testTemplate.html"
 
-# Add any special helpers
-def _list(this, options, items):
-    result = [u'<ul>']
-    for thing in items:
-        result.append(u'<li>')
-        result.extend(options['fn'](thing))
-        result.append(u'</li>')
-    result.append(u'</ul>')
-    return result
-helpers = {'list': _list}
+import codecs
+f = codecs.open(templateFilename, encoding='utf-8')
+templateString = f.read()
 
-# Add partials
-header = compiler.compile(u'<h1>People</h1>')
-partials = {'header': header}
+handlebarsTemplate = handlebarsCompiler.compile(templateString)
 
-# Render the template
-output = template({
-    'people': [
-            {'firstName': "Yehuda", 'lastName': "Katz"},
-            {'firstName': "Carl", 'lastName': "Lerche"},
-            {'firstName': "Alan", 'lastName': "Johnson"}
-    ]}, helpers=helpers, partials=partials)
+# remember functionality of helpers and partials
+# see https://github.com/wbond/pybars3
+output = handlebarsTemplate(locationData)
 
 print(output)
-
