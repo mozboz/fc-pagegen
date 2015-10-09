@@ -1,13 +1,25 @@
+#!/usr/bin/env python
+import codecs
 import json
 from oauth2client.client import SignedJwtAssertionCredentials
 import gspread
 from pybars import Compiler
 
+# Get data from spreadsheet, render with a template, and write out to file
 def main():
     locationData = loadNameValueDataFromSheet("Test HTML Generation", "A2:B14")
 
-    print renderTemplate("templates/testTemplate.html", locationData)
+    output = renderTemplate("templates/testTemplate.html", locationData)
 
+    outputFileName = "lesbos.html"
+
+    # print output
+
+    with codecs.open(outputFileName, "w", encoding="utf-8") as f:
+        f.write(output)
+
+
+# Load a given two column range from a spreadsheet into a dictionary
 def loadNameValueDataFromSheet(sheetName, cellRange):
 
     # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
@@ -28,16 +40,16 @@ def loadNameValueDataFromSheet(sheetName, cellRange):
     locationData = {}
 
     for rowIndex in range(0,rows):
-        print "name: " + cell_list[rowIndex * rowLength + 0].value
-        print "value: " + cell_list[rowIndex * rowLength + 1].value
+        #print "name: " + cell_list[rowIndex * rowLength + 0].value
+        #print "value: " + cell_list[rowIndex * rowLength + 1].value
         locationData[cell_list[rowIndex * rowLength + 0].value] = cell_list[rowIndex * rowLength + 1].value
 
     return locationData
 
+# Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
     handlebarsCompiler = Compiler()
 
-    import codecs
     f = codecs.open(templateFileName, encoding='utf-8')
     templateString = f.read()
 
