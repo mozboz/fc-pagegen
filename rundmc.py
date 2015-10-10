@@ -8,8 +8,13 @@ from pybars import Compiler
 # Get data from spreadsheet, render with a template, and write out to file
 def main():
 
+    # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
     credentialsFileName = 'firstcontacttest-a5b639f44275.json'
+
+    # An email address of a Google account will be generated in the above process, give that account
+    # edit access to a Google Sheet with this name:
     sheetTitle = "Test HTML Generation"
+
     locationData = loadNameValueDataFromSheet(sheetTitle, "A2:B14", credentialsFileName)
 
     output = renderTemplate("templates/testTemplate.html", locationData)
@@ -25,7 +30,7 @@ def main():
 # Load a given two column range from a spreadsheet into a dictionary
 def loadNameValueDataFromSheet(sheetName, cellRange, credentialsFileName):
 
-    # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
+
     json_key = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
 
