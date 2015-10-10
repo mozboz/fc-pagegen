@@ -7,7 +7,10 @@ from pybars import Compiler
 
 # Get data from spreadsheet, render with a template, and write out to file
 def main():
-    locationData = loadNameValueDataFromSheet("Test HTML Generation", "A2:B14")
+
+    credentialsFileName = 'firstcontacttest-a5b639f44275.json'
+    sheetTitle = "Test HTML Generation"
+    locationData = loadNameValueDataFromSheet(sheetTitle, "A2:B14", credentialsFileName)
 
     output = renderTemplate("templates/testTemplate.html", locationData)
 
@@ -20,10 +23,10 @@ def main():
 
 
 # Load a given two column range from a spreadsheet into a dictionary
-def loadNameValueDataFromSheet(sheetName, cellRange):
+def loadNameValueDataFromSheet(sheetName, cellRange, credentialsFileName):
 
     # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
-    json_key = json.load(open('firstcontacttest-a5b639f44275.json'))
+    json_key = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
 
     credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
