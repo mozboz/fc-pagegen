@@ -1,0 +1,7 @@
+Get all the handlebars placeholders from a file
+
+grep -oe '{{\([^ ]*\)}}' templates/master.html | tr -d '{}'
+
+Regex to find/replace placeholders, to add curly braces
+
+([^\w])(\w_[\w\_]+)([^\w\_])
