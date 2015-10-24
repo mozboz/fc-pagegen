@@ -1,0 +1,284 @@
+/* Default Styles */
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: sans-serif;
+    padding: 3px 15px;
+    line-height: 1.5;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: #fff;
+}
+
+
+/* Helpers */
+
+.visually-hidden { 
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+
+/* Headings */
+
+.h1 {
+    font-size: 64px;
+    margin: 0;
+    padding-bottom: 0;
+}
+
+.h2 {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-size: 19px;
+}
+
+.h4 {
+    margin-bottom: 0;
+}
+
+/* Header */
+
+.header {
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+}
+
+/* Header Menu */
+
+.menu {
+    float: right;
+}
+
+.menu__item {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+
+.menu__link {
+    display: block;
+    height: 30px;
+    width: 30px;
+    text-decoration: none;
+    border: 1px solid;
+    text-align: center;
+    line-height: 32px;
+    font-size: 23px;
+    margin-left: 5px;
+}
+
+/* Languages sub-menu */
+
+.sub-menu {
+    left: -9999em;
+    position: absolute;
+    right: 0;
+    background: #000;
+    width: 200px;
+    font-size: 13px;
+    padding-top: 10px;
+}
+
+.sub-menu__item a {
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid;
+    padding: 10px;
+}
+
+.sub-menu__item:first-child a {
+    border-top: 1px solid;
+}
+
+.menu__link:active + .sub-menu,
+.menu__link:focus + .sub-menu,
+.menu__item:hover .sub-menu {
+    right: 0;
+    left: auto;
+}
+
+/* Sections */
+
+.section {
+    padding: 40px 0 0;
+    max-width: 650px;
+}
+
+.section__header {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 4px;
+    margin-bottom: 30px;
+}
+
+.section__header .h2 {
+    display: inline-block;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.section__header a {
+    font-size: 13px;
+}
+
+.section__header i {
+    margin-right: 7px;
+}
+
+/* Alert Lists */
+
+.alert-list {
+    border: 1px dashed;
+    margin-bottom: 30px;
+    max-width: 400px;
+}
+
+.alert-list__link {
+    border-top: 1px solid;
+    padding: 10px 0;
+    display: block;
+    text-decoration: none;
+    font-size: 19px;
+}
+
+.alert-list__item:first-child .alert-list__link {
+    border-top: none;
+}
+
+.alert-list__link i {
+    margin: 0 15px;
+    font-size: 22px;
+}
+
+/* Main Navigation */
+
+.main-nav {
+    max-width: 400px;
+}
+
+.main-nav__link {
+    border-bottom: 1px solid;
+    padding: 15px 0;
+    display: block;
+    text-decoration: none;
+    font-size: 19px;
+}
+
+.main-nav__link i {
+    margin: 0 15px;
+    font-size: 22px;
+}
+
+
+/* Bullet point lists */
+
+.bulletted-list {
+    margin-left: 20px;
+}
+
+.bulletted-list__item {
+    list-style: disc;
+    margin-bottom: 15px;
+}
+
+
+/* Buttons */
+
+.btn {
+    color: #111;
+    background-color: #FFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 15px 0;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+/* Adhoc styles */
+
+.updated-text {
+    font-style: italic;
+    margin-top: 0;
+}
+
+/* Icons */
+
+@font-face {
+    font-family: 'icons';
+    src:url('../icons/icons.eot?wu7ybg');
+    src:url('../icons/icons.eot?wu7ybg#iefix') format('embedded-opentype'),
+        url('../icons/icons.ttf?wu7ybg') format('truetype'),
+        url('../icons/icons.woff?wu7ybg') format('woff'),
+        url('../icons/icons.svg?wu7ybg#icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon--"], [class*=" icon--"] {
+    font-family: 'icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon--location:before {
+    content: "\e900";
+}
+.icon--translate:before {
+    content: "\e901";
+}
+.icon--registration:before {
+    content: "\e902";
+}
+.icon--lodging:before {
+    content: "\e903";
+}
+.icon--medical:before {
+    content: "\e904";
+}
+.icon--warning:before {
+    content: "\e905";
+}
+.icon--emergency:before {
+    content: "\e906";
+}
+.icon--services:before {
+    content: "\e907";
+}
+.icon--transport:before {
+    content: "\e908";
+}
+.icon--currency:before {
+    content: "\e909";
+}
+
+/* Copyright */
+
+.copyright {
+    font-family: "courier new", courier, serif;
+}
