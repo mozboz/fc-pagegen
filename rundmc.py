@@ -56,15 +56,23 @@ def loadNameValueDataFromSheet(sheetName, cellRange, credentialsFileName):
 
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
-    handlebarsCompiler = Compiler()
 
     f = codecs.open(templateFileName, encoding='utf-8')
     templateString = f.read()
 
-    handlebarsTemplate = handlebarsCompiler.compile(templateString)
+    handlebarsTemplate = Compiler().compile(templateString)
 
     # remember functionality of helpers and partials
     # see https://github.com/wbond/pybars3
+
+    def _equal(this, options, left, right):
+        if left == right:
+            return options['fn'](this)
+        else:
+            return ''
+
+    helpers = {'equal': _equal}
+
     output = handlebarsTemplate(nameValueData)
 
     return output
