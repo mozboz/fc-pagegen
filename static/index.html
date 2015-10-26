@@ -121,27 +121,11 @@
 
     {{#each sections}}
         <section class="section">
-            <div class="section__header">
-                {{#if section-critical}}
-                <i class="icon icon--warning"></i>
-                {{/if}}
-                <h2 class="h2">{{section-title}}</h2>
-                <a href="#top">Back to top</a>
-            </div>
             <div class="section__content">
-                {{#each section-items}}
-                    {{#equals section-type "PARAGRAPH"}}
-                        this is a paragraph
-                    {{/equals}}
-
-                    {{#equals section-type "TITLE"}}
-                        this is a title
-                    {{/equals}}
-
-                    {{#equals section-type "LISTITEM"}}
-                        this is a listitem
-                    {{/equals}}
-
+                {{@key}}
+                {{#each this}}
+                    {{this}}
+                {{type}} {{value}}<br>
                 {{/each}}
             </div>
         </section>
