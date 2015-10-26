@@ -3,6 +3,7 @@ import codecs
 import json
 from oauth2client.client import SignedJwtAssertionCredentials
 import gspread
+from locationUtils import getEmptyLocationData, compileLocationDataToJSON
 from pybars import Compiler
 
 # Get data from spreadsheet, render with a template, and write out to file
@@ -15,7 +16,13 @@ def main():
     # edit access to a Google Sheet with this name:
     sheetTitle = "Test HTML Generation"
 
-    locationData = loadNameValueDataFromSheet(sheetTitle, "A2:B14", credentialsFileName)
+    locationName = "Lesbos"
+
+    locationDataRaw = loadSectionDataFromSheet(sheetTitle, "A2:C100", credentialsFileName)
+
+    locationData = getEmptyLocationData(locationName)
+
+    compileLocationDataToJSON(locationDataRaw, locationData)
 
     output = renderTemplate("templates/testTemplate.html", locationData)
 
@@ -28,8 +35,7 @@ def main():
 
 
 # Load a given two column range from a spreadsheet into a dictionary
-def loadNameValueDataFromSheet(sheetName, cellRange, credentialsFileName):
-
+def loadSectionDataFromSheet(locationData, sheetName, cellRange, credentialsFileName):
 
     json_key = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
@@ -42,17 +48,7 @@ def loadNameValueDataFromSheet(sheetName, cellRange, credentialsFileName):
 
     cell_list = wks.range(cellRange)
 
-    rowLength = 2
-    rows = len(cell_list) / rowLength
-
-    locationData = {}
-
-    for rowIndex in range(0,rows):
-        #print "name: " + cell_list[rowIndex * rowLength + 0].value
-        #print "value: " + cell_list[rowIndex * rowLength + 1].value
-        locationData[cell_list[rowIndex * rowLength + 0].value] = cell_list[rowIndex * rowLength + 1].value
-
-    return locationData
+    return cell_list
 
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
@@ -65,16 +61,14 @@ def renderTemplate(templateFileName, nameValueData):
     # remember functionality of helpers and partials
     # see https://github.com/wbond/pybars3
 
-    def _equal(this, options, left, right):
-        if left == right:
-            return options['fn'](this)
-        else:
-            return ''
+    from pybarscustom import _equal
 
     helpers = {'equal': _equal}
 
-    output = handlebarsTemplate(nameValueData)
+    output = handlebarsTemplate(nameValueData, helpers=helpers)
 
     return output
+
+
 
 main()
