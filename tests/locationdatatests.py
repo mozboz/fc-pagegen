@@ -124,7 +124,6 @@ class TestLocationDataFunctions(unittest.TestCase):
 
         self.assertEqual(emptyStruct, json.loads(jsonEquivalent))
 
-
 class Test_Cell:
     def __init__(self, value):
         self.value = value
