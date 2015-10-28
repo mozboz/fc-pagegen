@@ -26,7 +26,7 @@ def main():
 
     compileLocationDataToJSON(locationDataRaw, locationData)
 
-    output = renderTemplate("static/index.html", locationData)
+    output = renderTemplate("templates/index.html", locationData)
 
     outputFileName = "lesbos.html"
 
@@ -63,9 +63,9 @@ def renderTemplate(templateFileName, nameValueData):
     # remember functionality of helpers and partials
     # see https://github.com/wbond/pybars3
 
-    from pybarscustom import _equal
+    from pybarscustom import _equal, _urlify
 
-    helpers = {'equal': _equal}
+    helpers = {'equal': _equal, 'urlify': _urlify}
 
     output = handlebarsTemplate(nameValueData, helpers=helpers)
 
