@@ -12,6 +12,10 @@ sudo pip install pymeta
 sudo apt-get install python-dev
 sudo apt-get install libffi-dev
 sudo pip install PyOpenSSL
+git clone https://github.com/burnash/gspread.git
+cd gspread
+sudo python setup.py install
+sudo pip install json-delta
 ```
 
 To test first see the notes in loadNameValueDataFromSheet in rundmc.py about how to create an oauth2 token. You'll need to carry out this process which should result in a .json file, put that file in the same directory as the python script, and update the variable 'credentialsFileName' with its file name.
