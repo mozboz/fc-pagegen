@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{LOCATION_DETAILS.name}} - Refugee Information</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/main.css">
+</head>
+<body id="top">
+
+    <header class="header">
+        <img src="static/img/logobar.png" width="111" height="50" alt="IRC | MercyCorps">
+        
+        <ul class="menu" role="navigation">
+            
+            <li class="menu__item">
+                <a href="#" class="menu__link" title="EU Map">
+                    <i class="icon icon--location"></i>
+                    <span class="visually-hidden">EU Map</span>
+                </a>
+            </li>
+            
+            <li class="menu__item">
+                
+                <a href="#" class="menu__link" title="Change Language">
+                    <i class="icon icon--translate"></i>
+                    <span class="visually-hidden">Other Languages</span>
+                </a>
+                
+                <ul class="sub-menu">
+                    <li class="sub-menu__item">
+                        <a href="/lesbos/en/">English</a>
+                    </li>
+                    <li class="sub-menu__item">
+                        <a href="/lesbos/el/">ελληνικά</a>
+                    </li>
+                    <li class="sub-menu__item">
+                        <a href="/lesbos/ar/">العَرَبِية&lrm;</a>
+                    </li>
+                    <li class="sub-menu__item">
+                        <a href="/lesbos/fa/">فارسی</a>
+                    </li>
+                    <li class="sub-menu__item">
+                        <a href="/lesbos/ps/">پښتو</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </header>    
+
+    <h1 class="h1">{{LOCATION_DETAILS.name}}</h1>
+
+    <p class="updated-text">Last updated October 13th, 2015 at 09:40<br> by IRC</p>
+
+    <ul class="alert-list">
+        {{#each SECTIONS}}
+            {{#if CRITICAL}}
+                <li class="alert-list__item">
+                    <a class="alert-list__link" href="#{{urlify SECTION_TITLE}}">
+                        <i class="icon icon--warning"></i>
+                        {{SECTION_TITLE}}
+                    </a>
+                </li>
+            {{/if}}
+        {{/each}}
+    </ul>
+
+    <nav class="main-nav">
+        <ul>
+            {{#each SECTIONS}}
+                {{#unless CRITICAL}}
+                    <li class="main-nav__item">
+                        <a class="main-nav__link" href="#{{urlify SECTION_TITLE}}">
+                            <i class="icon icon--{{urlify SECTION_TITLE}}"></i>
+                            {{SECTION_TITLE}}
+                        </a>
+                    </li>
+                {{/unless}}
+            {{/each}}
+        </ul>
+    </nav>
+
+    {{#each SECTIONS}}
+        <section class="section">
+            <div class="section__header">
+                {{#if CRITICAL}}
+                <i class="icon icon--warning"></i>
+                {{/if}}
+                <h2 class="h2">{{SECTION_TITLE}}</h2>
+                <a href="#top">Back to top</a>
+            </div>
+            <div class="section__content">
+                {{#each SECTION_ITEMS}}
+                    {{#equal type "PARAGRAPH"}}
+                        this is a paragraph {{value}}
+                    {{/equal}}
+
+                    {{#equal type "TITLE"}}
+                        this is a title {{value}}
+                    {{/equal}}
+
+                    {{#equal type "LISTITEM"}}
+                        this is a listitem {{value}}
+                    {{/equal}}
+                {{/each}}
+            </div>
+        </section>
+    {{/each}}
+
+    <footer>
+        
+        <p class="copyright">Powered by <a href="http://www.rescue.org/">The International Rescue Committee</a>, <a href="https://github.com/theirc/refugeeinfo.eu/blob/master/LICENSE">Copyleft</a> 2015</p>
+
+    </footer>
+
+</body>
+</html>

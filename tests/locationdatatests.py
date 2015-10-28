@@ -47,15 +47,12 @@ class TestLocationDataFunctions(unittest.TestCase):
         with open("tests/expectedData.json", "r") as fp:
             j = json.load(fp)
 
-        #print "Location:\n" + str(locationData) + "\n\n"
 
-        # print "JSON File:\n" + str(j).replace("u\"","\"").replace("u\'","\'") + "\n\n"
+        print json_delta.diff(locationData, j)
 
-        #print json_delta.diff(locationData, j)
-
-        # self.assertEqual(locationData, str(j).replace("u\"","\"").replace("u\'","\'")   )
+        print locationData
+        # I have no idea how this comparison works, but it does do a deep comparison of the objects.
         self.assertEqual(locationData, j)
-        # self.assertTrue(True)
 
 
 
