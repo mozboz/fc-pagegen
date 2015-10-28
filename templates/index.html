@@ -90,21 +90,21 @@
                 {{#if CRITICAL}}
                 <i class="icon icon--warning"></i>
                 {{/if}}
-                <h2 class="h2">{{SECTION_TITLE}}</h2>
+                <h2 class="h2" id="{{urlify SECTION_TITLE}}">{{SECTION_TITLE}}</h2>
                 <a href="#top">Back to top</a>
             </div>
             <div class="section__content">
                 {{#each SECTION_ITEMS}}
                     {{#equal type "PARAGRAPH"}}
-                        this is a paragraph {{value}}
+                        <p>{{value}}</p>
                     {{/equal}}
 
                     {{#equal type "TITLE"}}
-                        this is a title {{value}}
+                        <h3 class="h3">{{value}}</h3>
                     {{/equal}}
 
                     {{#equal type "LISTITEM"}}
-                        this is a listitem {{value}}
+                        <li class="bulletted-list__item">{{value}}</li>
                     {{/equal}}
                 {{/each}}
             </div>

@@ -45,7 +45,7 @@
             ]
         },
         {
-            "CRITICAL":"false",
+            "CRITICAL":"",
             "SECTION_TITLE":"Registration",
 
             "SECTION_ITEMS":[

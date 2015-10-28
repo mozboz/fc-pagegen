@@ -28,7 +28,7 @@ def main():
 
     output = renderTemplate("templates/index.html", locationData)
 
-    outputFileName = "lesbos.html"
+    outputFileName = "render/lesbos.html"
 
     # print output
 
