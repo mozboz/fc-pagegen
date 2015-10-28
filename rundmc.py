@@ -15,16 +15,19 @@ def main():
     # An email address of a Google account will be generated in the above process, give that account
     # edit access to a Google Sheet with this name:
     sheetTitle = "Test HTML Generation"
+    sheetTab = "en"
 
     locationName = "Lesbos"
 
-#    locationDataRaw = loadSectionDataFromSheet(sheetTitle, "A2:C100", credentialsFileName)
+    locationDataRaw = loadSectionDataFromSheet(sheetTitle, sheetTab, "A2:C100", credentialsFileName)
 
-    locationDataRaw = getTestData()
+    # locationDataRaw = getTestData()
 
     locationData = getEmptyLocationData(locationName)
 
     compileLocationDataToJSON(locationDataRaw, locationData)
+
+    # print locationData
 
     output = renderTemplate("templates/index.html", locationData)
 
@@ -37,7 +40,7 @@ def main():
 
 
 # Load a given two column range from a spreadsheet into a dictionary
-def loadSectionDataFromSheet(locationData, sheetName, cellRange, credentialsFileName):
+def loadSectionDataFromSheet(sheetName, sheetTab, cellRange, credentialsFileName):
 
     json_key = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
@@ -46,7 +49,7 @@ def loadSectionDataFromSheet(locationData, sheetName, cellRange, credentialsFile
 
     gc = gspread.authorize(credentials)
 
-    wks = gc.open(sheetName).sheet1
+    wks = gc.open(sheetName).worksheet(sheetTab)
 
     cell_list = wks.range(cellRange)
 
