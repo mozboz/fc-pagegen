@@ -1,0 +1,2 @@
+RewriteEngine  on
+RewriteRule    "show/(.*)/(.*)"  "render/$1/$2.html" [PT]
