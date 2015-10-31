@@ -1,0 +1,4 @@
+RewriteEngine  on
+RewriteRule    "show/(.*)/static/(.*)"  "static/$2" [PT]
+RewriteRule    "show/(.*)/(.*)"  "locations/$1/$2.html" [PT]
+

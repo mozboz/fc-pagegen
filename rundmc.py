@@ -1,38 +1,47 @@
 #!/usr/bin/env python
 import codecs
 import json
+import os
 from oauth2client.client import SignedJwtAssertionCredentials
 import gspread
 from locationUtils import getEmptyLocationData, compileLocationDataToJSON
 from pybars import Compiler
 
 # Get data from spreadsheet, render with a template, and write out to file
-def main():
-
-    # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
-    credentialsFileName = 'firstcontacttest-a5b639f44275.json'
+def main(locationRoot, credentialsFileName):
 
     # An email address of a Google account will be generated in the above process, give that account
     # edit access to a Google Sheet with this name:
     sheetTitle = "Test HTML Generation"
     sheetTab = "en"
 
-    locationName = "Lesbos"
+    location = "Lesbos"
+    language = "en"
 
     locationDataRaw = loadSectionDataFromSheet(sheetTitle, sheetTab, "A2:C100", credentialsFileName)
 
     # locationDataRaw = getTestData()
 
-    locationData = getEmptyLocationData(locationName)
+    locationData = getEmptyLocationData(location)
 
     compileLocationDataToJSON(locationDataRaw, locationData)
 
-    output = renderTemplate("templates/index.html", locationData)
+    renderedLocation = renderTemplate("templates/index.html", locationData)
 
-    outputFileName = "render/lesbos.html"
+    outputFileName = getFileNameAndCreatePath(locationRoot, language, location)
 
     with codecs.open(outputFileName, "w", encoding="utf-8") as f:
-        f.write(output)
+        f.write(renderedLocation)
+
+# Given the webroot, a language and a location name, check the directory for language exists, and return
+# full path for a file in the format:
+#      {webRoot}/{language}/{location}.html
+def getFileNameAndCreatePath(webRoot, language, location):
+    dir = webRoot + '/' + language
+    if (not os.path.isdir(dir)):
+        os.mkdir(dir, 0775)
+
+    return dir + '/' + location.lower() + '.html'
 
 
 # Load a given range from a Google Sheet
@@ -98,4 +107,10 @@ class Test_Cell:
     def __init__(self, value):
         self.value = value
 
-main()
+# --- Execution starts here
+locationRoot = "www/locations"
+
+# This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
+credentialsFileName = 'firstcontacttest-a5b639f44275.json'
+
+main(locationRoot, credentialsFileName)
