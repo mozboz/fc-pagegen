@@ -17,7 +17,7 @@
 
     </header>    
 
-    <form id="lang_loc_form" name="lang_loc_form" action="routing.php" method="POST">
+    <form id="lang_loc_form" name="lang_loc_form" action="routing.php" method="GET">
 
         <ul class="radio-group">
             <li class="radio-group__item">
@@ -44,10 +44,10 @@
 
         <ul class="btn-list btn-list--full">
             <li class="btn-list__item">
-                <button class="btn btn--hollow" type="submit" value="Lesbos" form="lang_loc_form">Go to Lesbos</button>
+                <input type="submit" class="btn btn--hollow" type="submit" value="Lesbos" name="loc" form="lang_loc_form">
             </li>
             <li class="btn-list__item">
-                <button class="btn btn--hollow" type="submit" value="Kos" form="lang_loc_form">Go to Kos</button>
+                <input type="submit" class="btn btn--hollow" type="submit" value="Kos" name="loc" form="lang_loc_form">
             </li>
             <!--
             <li class="btn-list__item">
