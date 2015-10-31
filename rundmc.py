@@ -27,39 +27,35 @@ def main():
 
     compileLocationDataToJSON(locationDataRaw, locationData)
 
-    # print locationData
-
     output = renderTemplate("templates/index.html", locationData)
 
     outputFileName = "render/lesbos.html"
-
-    # print output
 
     with codecs.open(outputFileName, "w", encoding="utf-8") as f:
         f.write(output)
 
 
-# Load a given two column range from a spreadsheet into a dictionary
+# Load a given range from a Google Sheet
 def loadSectionDataFromSheet(sheetName, sheetTab, cellRange, credentialsFileName):
 
-    json_key = json.load(open(credentialsFileName))
+    jsonKey = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
 
-    credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
+    credentials = SignedJwtAssertionCredentials(jsonKey['client_email'], jsonKey['private_key'], scope)
 
     gc = gspread.authorize(credentials)
 
     wks = gc.open(sheetName).worksheet(sheetTab)
 
-    cell_list = wks.range(cellRange)
+    cellList = wks.range(cellRange)
 
-    return cell_list
+    return cellList
 
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
 
-    f = codecs.open(templateFileName, encoding='utf-8')
-    templateString = f.read()
+    with codecs.open(templateFileName, encoding='utf-8') as f:
+        templateString = f.read()
 
     handlebarsTemplate = Compiler().compile(templateString)
 
@@ -70,9 +66,9 @@ def renderTemplate(templateFileName, nameValueData):
 
     helpers = {'equal': _equal, 'urlify': _urlify}
 
-    output = handlebarsTemplate(nameValueData, helpers=helpers)
+    render = handlebarsTemplate(nameValueData, helpers=helpers)
 
-    return output
+    return render
 
 def getTestData():
 
