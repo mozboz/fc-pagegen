@@ -4,7 +4,7 @@ Written for use in the first-contact.org websites, generates HTML by reading val
 
 Maintains the simplicity of handlebars for templating, and flexibility of Google Sheets for recording information in different formats.
 
-Requires python2
+Requires python2 to render, apache2 & php to serve.
 
 ```
 sudo pip install oauth2client
@@ -19,17 +19,19 @@ sudo python setup.py install
 sudo pip install json-delta
 ```
 
-To test first see the notes in loadNameValueDataFromSheet in rundmc.py about how to create an oauth2 token. You'll need to carry out this process which should result in a .json file, put that file in the same directory as the python script, and update the variable 'credentialsFileName' with its file name.
+For web server setup, ensure mod_rewrite is on and 'AllowOverride' is allowed for your web directory.
+
+To test first see the notes in at the end of rundmc.py about how to create an oauth2 token and configure any paths. You'll need to carry out this process which should result in a .json file, put that file in the same directory as the python script, and update the variable 'credentialsFileName' to reflect the file name.
 
 Then, you need a copy of a Google Sheet that looks like this: https://docs.google.com/spreadsheets/d/1LbppGU5e4NbpnHn9vGRe0Z4QpatdCIg9Bygf3RQjas0/edit#gid=0
 
 The sheet is referenced by its **title**. Ensure that the variable sheetTitle contains the name of a sheet accessible by the OAuth user.
 
-Two columns, which correspond to variable names and values should be available in the sheet, and you can change the range in the code correspondingly.
-
-When all setup, run:
+When all setup, to generate all static files, run:
 
     python rundmc.py
     
 Or, ensure all the above dependencies are installed on a LAMP server, and call recompile.php?recompile=go via a browser.
+
+All output goes to the www directory. Copy it to your web server and browse to the root!
 
