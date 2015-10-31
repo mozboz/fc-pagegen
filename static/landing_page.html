@@ -15,7 +15,7 @@
         
         <img src="img/logobar.png" width="111" height="50" alt="IRC | MercyCorps">
 
-        <img src="img/first_contact_logo.png" class="pull-right" width="175" height="59" alt="First Contact logo">
+        <img src="img/first_contact_logo.png" srcset="img/first_contact_logo.png 1x, iimg/first_contact_logo@2x.png 2x" class="pull-right" width="164" height="50" alt="First Contact logo">
 
     </header>    
 
@@ -69,6 +69,29 @@
 
     </footer>
 
+<script>
+
+"use strict";
+
+(function () {
+
+ 
+    self.importScripts('js/serviceworker-cache-polyfill.js');
+ 
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ',    registration.scope);
+      }).catch(function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    }
+
+}());
+
+
+</script>
 
 </body>
 </html>
