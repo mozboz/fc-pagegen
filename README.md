@@ -13,9 +13,7 @@ sudo pip install pybars3
 sudo apt-get install python-dev
 sudo apt-get install libffi-dev
 sudo pip install PyOpenSSL
-git clone https://github.com/burnash/gspread.git
-cd gspread
-sudo python setup.py install
+sudo pip install gspread
 sudo pip install json-delta
 ```
 
