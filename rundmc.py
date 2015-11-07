@@ -111,6 +111,6 @@ class Test_Cell:
 locationRoot = "www/locations"
 
 # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
-credentialsFileName = 'firstcontacttest-a5b639f44275.json'
+credentialsFileName = 'google-drive-creds.json'
 
 main(locationRoot, credentialsFileName)
