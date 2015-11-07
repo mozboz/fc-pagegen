@@ -12,13 +12,13 @@ def main(locationRoot, credentialsFileName):
 
     # An email address of a Google account will be generated in the above process, give that account
     # edit access to a Google Sheet with this name:
-    sheetTitle = "Test HTML Generation"
+    sheetKey = "1HKRD8HnkbLNLRJ6UUwq70xW8kBLyZOUGbVsAh3t4GKE"
     sheetTab = "en"
 
     location = "Lesbos"
     language = "en"
 
-    locationDataRaw = loadSectionDataFromSheet(sheetTitle, sheetTab, "A2:C100", credentialsFileName)
+    locationDataRaw = loadSectionDataFromSheet(sheetKey, sheetTab, "A2:C200", credentialsFileName)
 
     # locationDataRaw = getTestData()
 
@@ -45,7 +45,7 @@ def getFileNameAndCreatePath(webRoot, language, location):
 
 
 # Load a given range from a Google Sheet
-def loadSectionDataFromSheet(sheetName, sheetTab, cellRange, credentialsFileName):
+def loadSectionDataFromSheet(sheetKey, sheetTab, cellRange, credentialsFileName):
 
     jsonKey = json.load(open(credentialsFileName))
     scope = ['https://spreadsheets.google.com/feeds']
@@ -54,7 +54,7 @@ def loadSectionDataFromSheet(sheetName, sheetTab, cellRange, credentialsFileName
 
     gc = gspread.authorize(credentials)
 
-    wks = gc.open(sheetName).worksheet(sheetTab)
+    wks = gc.open_by_key(sheetKey).worksheet(sheetTab)
 
     cellList = wks.range(cellRange)
 

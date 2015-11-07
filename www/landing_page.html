@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>First Contact</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body id="top">
+
+    <header class="header">
+
+        <img src="img/first_contact_logo.png" srcset="img/first_contact_logo.png 1x, iimg/first_contact_logo@2x.png 2x" width="164" height="50" alt="First Contact logo">
+
+    </header>    
+
+    <form id="lang_loc_form" name="lang_loc_form" action="routing.php" method="GET">
+
+        <ul class="radio-group">
+            <li class="radio-group__item">
+                <input id="english" class="toggle" type="radio" name="lang" value="en" checked>
+                <label for="english" class="btn btn--hollow">English</label>
+            </li>
+            <li class="radio-group__item">
+                <input id="greek" class="toggle" type="radio" name="lang" value="gr">
+                <label for="greek" class="btn btn--hollow">ελληνικά</label>
+            </li>
+            <li class="radio-group__item">
+                <input id="arabic" class="toggle" type="radio" name="lang" value="ar">
+                <label for="arabic" class="btn btn--hollow">العَرَبِية‎</label>
+            </li>
+            <li class="radio-group__item">
+                <input id="farsi" class="toggle" type="radio" name="lang" value="fa">
+                <label for="farsi" class="btn btn--hollow">فارسی</label>
+            </li>
+            <li class="radio-group__item">
+                <input id="urdu" class="toggle" type="radio" name="lang" accept="ur">
+                <label for="urdu" class="btn btn--hollow">پښتو</label>
+            </li>
+        </ul>
+
+        <ul class="btn-list btn-list--full">
+            <li class="btn-list__item">
+                <input type="submit" class="btn btn--hollow" type="submit" value="Lesbos" name="loc" form="lang_loc_form">
+            </li>
+            <li class="btn-list__item">
+                <input type="submit" class="btn btn--hollow" type="submit" value="Kos" name="loc" form="lang_loc_form">
+            </li>
+            <!--
+            <li class="btn-list__item">
+                <a href="/map" class="btn btn--hollow">Open Map</a>
+            </li>
+            <li class="btn-list__item">
+                <button class="btn btn--hollow" onclick="load_from_browser()">Detect my location</button>
+            </li>
+            -->
+        </ul>
+
+    </form>     
+
+    <footer>
+        
+        <p class="copyright"<a href="https://github.com/mozboz/fc-pagegen/blob/master/LICENSE">Copyright, first-contact.org</a></p>
+
+    </footer>
+
+</body>
+</html>
