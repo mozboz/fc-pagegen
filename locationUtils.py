@@ -1,17 +1,14 @@
 from fcglobals import globals as g
 
 # locationData is a dict to represent a JSON doc to write data parsed from rawData
-def compileLocationDataToJSON(rawData, locationData):
-
-    rowLength = 3
-    rows = len(rawData) / rowLength
+def compileLocationDataToObject(rawData, locationData, valueColumn, rows, columns, startRow):
 
     d = {}
     # first roll up by sectionId into dict d
-    for rowIndex in range(0,rows):
-        sectionId = rawData[rowIndex * rowLength + 0].value
-        itemType = rawData[rowIndex * rowLength + 1].value
-        itemValue = rawData[rowIndex * rowLength + 2].value
+    for rowIndex in range(1,rows):
+        sectionId = rawData[rowIndex * columns + 0].value
+        itemType = rawData[rowIndex * columns + 1].value
+        itemValue = rawData[rowIndex * columns + valueColumn].value
 
         # print sectionId + str(type(sectionId)) + itemType + str(type(itemType)) + itemValue + str(type(itemValue))
 
@@ -40,7 +37,7 @@ def compileLocationDataToJSON(rawData, locationData):
         locationData[g.SECTIONS_KEY].append(o)
 
 
-def getEmptyLocationData(locationName):
+def getEmptyLocationDataObject(locationName):
 
     locationData = {g.LOCATION_DETAILS_KEY: {"name": locationName}, g.SECTIONS_KEY: []}
 

@@ -12,7 +12,7 @@ class TestLocationDataFunctions(unittest.TestCase):
     def test_setup_data(self):
 
         name = "lesbos"
-        emptyStruct = getEmptyLocationData(name)
+        emptyStruct = getEmptyLocationDataObject(name)
         expectedStruct = {g.LOCATION_DETAILS_KEY: {"name": name}, g.SECTIONS_KEY: []}
         self.assertEqual(emptyStruct, expectedStruct);
 
@@ -20,7 +20,7 @@ class TestLocationDataFunctions(unittest.TestCase):
     def test_load_raw_data(self):
 
         name = "lesbos"
-        locationData = getEmptyLocationData(name)
+        locationData = getEmptyLocationDataObject(name)
 
         data = ['MOLYVOS',	'SECTION_TITLE',	'Molyvos: vital arrival info',
         'MOLYVOS',	'CRITICAL',	'X',

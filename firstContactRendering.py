@@ -2,27 +2,50 @@ import codecs
 import os
 from pybars import Compiler
 from firstContactSheets import loadSectionDataFromSheet
-from locationUtils import getEmptyLocationData, compileLocationDataToJSON
+from locationUtils import getEmptyLocationDataObject, compileLocationDataToObject
 from testData import getTestData, Test_Cell
 
 # Get data from spreadsheet, render with a template, and write out to file
 # Account from the credentials must have access ot the file
-def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName, sheetTab, language):
-    locationDataRaw = loadSectionDataFromSheet(sheetKey, sheetTab, "A2:C200", credentialsFileName)
+def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
 
-    # locationDataRaw = getTestData()
+    #todo move out to config file
+    allDataTab = "allDataTab"
 
-    locationData = getEmptyLocationData(locationName)
+    range = "B1:I200"
+    cols = 8
+    rows = 200
+    startRow = 1
 
-    compileLocationDataToJSON(locationDataRaw, locationData)
+    locationDataRaw = loadSectionDataFromSheet(sheetKey, allDataTab, range, credentialsFileName)
 
-    renderedLocation = renderTemplate("templates/index.html", locationData)
+    languages = getLanguages(locationDataRaw, rows, cols)
 
-    outputFileName = getFileNameAndCreatePath(locationRoot, language, locationName)
+    writtenSheets = []
 
-    with codecs.open(outputFileName, "w", encoding="utf-8") as f:
-        f.write(renderedLocation)
+    for languageColumn in languages:
+        locationData = getEmptyLocationDataObject(locationName)
 
+        compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
+
+        renderedLocation = renderTemplate("templates/index.html", locationData)
+
+        outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
+
+        with codecs.open(outputFileName, "w", encoding="utf-8") as f:
+            f.write(renderedLocation)
+
+        writtenSheets.append({"location" : locationName, "language" : languages[languageColumn]})
+
+    return writtenSheets
+
+def getLanguages(locationDataRaw, rows, cols):
+    languages = {}
+    for colIndex in range(0,cols):
+        if (locationDataRaw[colIndex].value.strip()):
+            languages[colIndex] = locationDataRaw[colIndex].value
+
+    return languages
 
 # Given the webroot, a language and a location name, check the directory for language exists, and return
 # full path for a file in the format:

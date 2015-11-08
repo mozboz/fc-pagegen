@@ -7,8 +7,8 @@ locationRoot = "www/locations"
 credentialsFileName = 'google-drive-creds.json'
 
 locationName = "Lesbos"
-sheetTab = "en"
-language = "en"
 sheetKey = "1HKRD8HnkbLNLRJ6UUwq70xW8kBLyZOUGbVsAh3t4GKE"
 
-renderSheet(locationRoot, credentialsFileName, sheetKey, locationName, sheetTab, language)
+writtenSheets = renderSheet(locationRoot, credentialsFileName, sheetKey, locationName)
+
+print writtenSheets
