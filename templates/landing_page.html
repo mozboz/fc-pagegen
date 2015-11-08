@@ -20,35 +20,16 @@
     <form id="lang_loc_form" name="lang_loc_form" action="routing.php" method="GET">
 
         <ul class="radio-group">
-            <li class="radio-group__item">
-                <input id="english" class="toggle" type="radio" name="lang" value="en" checked>
-                <label for="english" class="btn btn--hollow">English</label>
-            </li>
-            <li class="radio-group__item">
-                <input id="greek" class="toggle" type="radio" name="lang" value="gr">
-                <label for="greek" class="btn btn--hollow">ελληνικά</label>
-            </li>
-            <li class="radio-group__item">
-                <input id="arabic" class="toggle" type="radio" name="lang" value="ar">
-                <label for="arabic" class="btn btn--hollow">العَرَبِية‎</label>
-            </li>
-            <li class="radio-group__item">
-                <input id="farsi" class="toggle" type="radio" name="lang" value="fa">
-                <label for="farsi" class="btn btn--hollow">فارسی</label>
-            </li>
-            <li class="radio-group__item">
-                <input id="urdu" class="toggle" type="radio" name="lang" accept="ur">
-                <label for="urdu" class="btn btn--hollow">پښتو</label>
-            </li>
+            {{#each languageShortCodes }}
+                {{> languageRadio this }}
+            {{/each}}
         </ul>
 
         <ul class="btn-list btn-list--full">
-            <li class="btn-list__item">
-                <input type="submit" class="btn btn--hollow" type="submit" value="Lesbos" name="loc" form="lang_loc_form">
-            </li>
-            <li class="btn-list__item">
-                <input type="submit" class="btn btn--hollow" type="submit" value="Kos" name="loc" form="lang_loc_form">
-            </li>
+            {{#each locations }}
+                {{> locationButton this }}
+            {{/each}}
+
             <!--
             <li class="btn-list__item">
                 <a href="/map" class="btn btn--hollow">Open Map</a>
@@ -62,9 +43,7 @@
     </form>     
 
     <footer>
-        
-        <p class="copyright"<a href="https://github.com/mozboz/fc-pagegen/blob/master/LICENSE">Copyright, first-contact.org</a></p>
-
+        <p class="copyright"><a href="https://github.com/mozboz/fc-pagegen/blob/master/LICENSE">Copyright, first-contact.org</a></p>
     </footer>
 
 </body>

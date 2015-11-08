@@ -20,15 +20,17 @@ def _urlify(this, urlifyme):
 
     return s.lower()
 
-# See the template HTML for comments
+# See the template HTML for comments on partials
 def _languageRadioPartial():
-    radioPartialFileName = 'templates/radioPartial.html'
+    return loadFileToUnicodeString('templates/radioPartial.html')
 
-    with codecs.open (radioPartialFileName, "r", "utf-8") as f:
-        partialString=f.read()
+def _locationPartial():
+    return loadFileToUnicodeString('templates/locationPartial.html')
 
-    return partialString
-
+def loadFileToUnicodeString(fileName):
+    with codecs.open (fileName, "r", "utf-8") as f:
+        s=f.read()
+    return s
 
 
 def _getLanguageTitleInNativeLanguage(this, shortCode):
