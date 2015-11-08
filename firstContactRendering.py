@@ -71,18 +71,24 @@ def getFileNameAndCreatePath(webRoot, language, location):
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
 
+    compiler = Compiler()
+
     with codecs.open(templateFileName, encoding='utf-8') as f:
         templateString = f.read()
 
-    handlebarsTemplate = Compiler().compile(templateString)
+    handlebarsTemplate = compiler.compile(templateString)
 
     # remember functionality of helpers and partials
     # see https://github.com/wbond/pybars3
 
-    from pybarscustom import _equal, _urlify
+    from pybarscustom import _equal, _urlify, _languageRadioPartial, _getLanguageTitleInNativeLanguage
 
-    helpers = {'equal': _equal, 'urlify': _urlify}
+    helpers = {'equal': _equal, 'urlify': _urlify, 'getLanguageTitle' : _getLanguageTitleInNativeLanguage}
 
-    render = handlebarsTemplate(nameValueData, helpers=helpers)
+    languageRadioPartial = compiler.compile(_languageRadioPartial())
+
+    partials = { 'languageRadio' : languageRadioPartial}
+
+    render = handlebarsTemplate(nameValueData, helpers = helpers, partials = partials)
 
     return render

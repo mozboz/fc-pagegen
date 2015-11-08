@@ -1,4 +1,9 @@
+{{! This is the handlebars partial to render each of the language radio }}
+{{! languageShortCode should get substituted with e.g. 'en' }}
+{{! langChecked will get subsctituted with 'checked' if we want this option to be default }}
+{{! getLanguageTitle is a helper to map the shortcode to full language name, in that language }}
+
 <li class="radio-group__item">
-    <input id="{{langShortCode}}" class="toggle" type="radio" name="lang" value="{{langShortCode}}" {{langChecked}}>
-    <label for="{{langShortCode}}" class="btn btn--hollow">{{langLabel}}</label>
+    <input id="{{languageShortCode}}" class="toggle" type="radio" name="lang" value="{{languageShortCode}}" {{langChecked}}>
+    <label for="{{languageShortCode}}" class="btn btn--hollow">{{getLanguageTitle languageShortCode}}</label>
 </li>
