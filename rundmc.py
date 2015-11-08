@@ -7,20 +7,17 @@ locationRoot = "www/locations"
 # This file must be generated. See http://gspread.readthedocs.org/en/latest/oauth2.html
 credentialsFileName = 'google-drive-creds.json'
 
+masterSheetKeyLive = "1_UrWtrxqGQF4Kd8Q1ZVEPz2F_quyW8YpA4BCrsV0byw"
+masterSheetKeyDemo = "1lAUfDjwsoVPajFUInvAY-6uDnfmEuQcXCWNUQzJZPiw"
 
-locationName = "Lesbos"
-sheetKey = "1HKRD8HnkbLNLRJ6UUwq70xW8kBLyZOUGbVsAh3t4GKE"
-
-masterSheetKey = "1_UrWtrxqGQF4Kd8Q1ZVEPz2F_quyW8YpA4BCrsV0byw"
-
-# writtenSheets = renderSheet(locationRoot, credentialsFileName, sheetKey, locationName)
-
-# print writtenSheets
+masterSheetKey = masterSheetKeyDemo
 
 activeSheets = getMasterSheet(masterSheetKey, credentialsFileName)
 
-allWrittenSheets = {}
+allStatuses = []
 
 for id in activeSheets:
-    writtenSheets = renderSheet(locationRoot, credentialsFileName, id, activeSheets[id])
-    allWrittenSheets.update(writtenSheets)
+    sheetStatuses = renderSheet(locationRoot, credentialsFileName, id, activeSheets[id])
+    allStatuses.extend(sheetStatuses)
+
+print allStatuses

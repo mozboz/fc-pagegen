@@ -4,7 +4,6 @@ from pybars import Compiler
 import sys
 from firstContactSheets import loadRangeFromSheet
 from locationUtils import getEmptyLocationDataObject, compileLocationDataToObject
-from testData import getTestData, Test_Cell
 
 # Get data from spreadsheet, render with a template, and write out to file
 # Account from the credentials must have access ot the file
@@ -18,30 +17,34 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
     rows = 200
     startRow = 1
 
-    locationDataRaw = loadRangeFromSheet(sheetKey, allDataTab, range, credentialsFileName)
-
-    languages = getLanguages(locationDataRaw, rows, cols)
-
     sheetStatuses = []
 
-    # catch errors so we have some chance of completing large batches in case of strange errors
-    for languageColumn in languages:
-        try:
-            locationData = getEmptyLocationDataObject(locationName)
+    try:
+        locationDataRaw = loadRangeFromSheet(sheetKey, allDataTab, range, credentialsFileName)
 
-            compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
+        languages = getLanguages(locationDataRaw, rows, cols)
 
-            renderedLocation = renderTemplate("templates/index.html", locationData)
+        # catch errors so we have some chance of completing large batches in case of strange errors
+        for languageColumn in languages:
+            try:
+                locationData = getEmptyLocationDataObject(locationName)
 
-            outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
+                compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
 
-            with codecs.open(outputFileName, "w", encoding="utf-8") as f:
-                f.write(renderedLocation)
+                renderedLocation = renderTemplate("templates/index.html", locationData)
 
-            sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "success"})
+                outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
 
-        except:
-            sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "Error: " + sys.exc_info()[0]})
+                with codecs.open(outputFileName, "w", encoding="utf-8") as f:
+                    f.write(renderedLocation)
+
+                sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "success"})
+            except:
+                sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "error: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1])})
+
+
+    except:
+        sheetStatuses.append({"location" : locationName, "status" : "Fail loading sheet: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1]) + " key: " + sheetKey})
 
     return sheetStatuses
 
@@ -53,6 +56,7 @@ def getLanguages(locationDataRaw, rows, cols):
 
     return languages
 
+
 # Given the webroot, a language and a location name, check the directory for language exists, and return
 # full path for a file in the format:
 #      {webRoot}/{language}/{location}.html
@@ -62,6 +66,7 @@ def getFileNameAndCreatePath(webRoot, language, location):
         os.mkdir(dir, 0775)
 
     return dir + '/' + location.lower() + '.html'
+
 
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
