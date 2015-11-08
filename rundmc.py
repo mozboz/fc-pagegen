@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from firstContactRendering import renderSheet
-from firstContactSheets import getMasterSheet
+from firstContactSheets import getActiveLocationsFromMasterSheet
 
 locationRoot = "www/locations"
 
@@ -12,12 +12,18 @@ masterSheetKeyDemo = "1lAUfDjwsoVPajFUInvAY-6uDnfmEuQcXCWNUQzJZPiw"
 
 masterSheetKey = masterSheetKeyDemo
 
-activeSheets = getMasterSheet(masterSheetKey, credentialsFileName)
+activeLocations = getActiveLocationsFromMasterSheet(masterSheetKey, credentialsFileName)
 
 allStatuses = []
+locations = []
+languages = []
 
-for id in activeSheets:
-    sheetStatuses = renderSheet(locationRoot, credentialsFileName, id, activeSheets[id])
+for id in activeLocations:
+    sheetStatuses, renderedLanguages = renderSheet(locationRoot, credentialsFileName, id, activeLocations[id])
     allStatuses.extend(sheetStatuses)
+    locations.append(activeLocations[id])
+    languages = list(set(languages) | set(renderedLanguages))
 
 print allStatuses
+print locations
+print languages

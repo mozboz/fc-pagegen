@@ -22,10 +22,10 @@ def _urlify(this, urlifyme):
 
 # See the template HTML for comments on partials
 def _languageRadioPartial():
-    return loadFileToUnicodeString('templates/radioPartial.html')
+    return loadFileToUnicodeString('templates/languageRadioPartial.html')
 
 def _locationPartial():
-    return loadFileToUnicodeString('templates/locationPartial.html')
+    return loadFileToUnicodeString('templates/locationButtonPartial.html')
 
 def loadFileToUnicodeString(fileName):
     with codecs.open (fileName, "r", "utf-8") as f:

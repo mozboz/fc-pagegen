@@ -19,7 +19,7 @@ def loadRangeFromSheet(sheetKey, sheetTab, cellRange, credentialsFileName):
     return cellList
 
 # parse master sheet to get all active sheet IDs and names
-def getMasterSheet(sheetKey, credentialsFileName):
+def getActiveLocationsFromMasterSheet(sheetKey, credentialsFileName):
 
     data = loadRangeFromSheet(sheetKey, "Locations", "A3:D100", credentialsFileName)
 
