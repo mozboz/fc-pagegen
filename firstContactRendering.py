@@ -1,7 +1,8 @@
 import codecs
 import os
 from pybars import Compiler
-from firstContactSheets import loadSectionDataFromSheet
+import sys
+from firstContactSheets import loadRangeFromSheet
 from locationUtils import getEmptyLocationDataObject, compileLocationDataToObject
 from testData import getTestData, Test_Cell
 
@@ -17,27 +18,32 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
     rows = 200
     startRow = 1
 
-    locationDataRaw = loadSectionDataFromSheet(sheetKey, allDataTab, range, credentialsFileName)
+    locationDataRaw = loadRangeFromSheet(sheetKey, allDataTab, range, credentialsFileName)
 
     languages = getLanguages(locationDataRaw, rows, cols)
 
-    writtenSheets = []
+    sheetStatuses = []
 
+    # catch errors so we have some chance of completing large batches in case of strange errors
     for languageColumn in languages:
-        locationData = getEmptyLocationDataObject(locationName)
+        try:
+            locationData = getEmptyLocationDataObject(locationName)
 
-        compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
+            compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
 
-        renderedLocation = renderTemplate("templates/index.html", locationData)
+            renderedLocation = renderTemplate("templates/index.html", locationData)
 
-        outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
+            outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
 
-        with codecs.open(outputFileName, "w", encoding="utf-8") as f:
-            f.write(renderedLocation)
+            with codecs.open(outputFileName, "w", encoding="utf-8") as f:
+                f.write(renderedLocation)
 
-        writtenSheets.append({"location" : locationName, "language" : languages[languageColumn]})
+            sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "success"})
 
-    return writtenSheets
+        except:
+            sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "Error: " + sys.exc_info()[0]})
+
+    return sheetStatuses
 
 def getLanguages(locationDataRaw, rows, cols):
     languages = {}
