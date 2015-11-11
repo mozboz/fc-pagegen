@@ -18,6 +18,7 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
     startRow = 1
 
     sheetStatuses = []
+    successfullyRenderedLanguages = []
 
     try:
         locationDataRaw = loadRangeFromSheet(sheetKey, allDataTab, range, credentialsFileName)
@@ -27,26 +28,28 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
         # catch errors so we have some chance of completing large batches in case of strange errors
         for languageColumn in languages:
             try:
+                language = languages[languageColumn]
                 locationData = getEmptyLocationDataObject(locationName)
 
                 compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
 
                 renderedLocation = renderTemplate("templates/index.html", locationData)
 
-                outputFileName = getFileNameAndCreatePath(locationRoot, languages[languageColumn], locationName)
+                outputFileName = getFileNameAndCreatePath(locationRoot, language, locationName)
 
                 with codecs.open(outputFileName, "w", encoding="utf-8") as f:
                     f.write(renderedLocation)
 
-                sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "success"})
+                sheetStatuses.append({"location" : locationName, "language" : language, "status" : "success"})
+                successfullyRenderedLanguages.extend(language)
             except:
-                sheetStatuses.append({"location" : locationName, "language" : languages[languageColumn], "status" : "error: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1])})
+                sheetStatuses.append({"location" : locationName, "language" : language, "status" : "error: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1])})
 
 
     except:
         sheetStatuses.append({"location" : locationName, "status" : "Fail loading sheet: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1]) + " key: " + sheetKey})
 
-    return sheetStatuses
+    return (sheetStatuses, languages.values())
 
 def getLanguages(locationDataRaw, rows, cols):
     languages = {}
@@ -71,18 +74,24 @@ def getFileNameAndCreatePath(webRoot, language, location):
 # Render a given dataset into a handlebars template from a file
 def renderTemplate(templateFileName, nameValueData):
 
+    compiler = Compiler()
+
     with codecs.open(templateFileName, encoding='utf-8') as f:
         templateString = f.read()
 
-    handlebarsTemplate = Compiler().compile(templateString)
+    handlebarsTemplate = compiler.compile(templateString)
 
     # remember functionality of helpers and partials
     # see https://github.com/wbond/pybars3
 
-    from pybarscustom import _equal, _urlify
+    from pybarscustom import _equal, _urlify, _languageRadioPartial, _getLanguageTitleInNativeLanguage
 
-    helpers = {'equal': _equal, 'urlify': _urlify}
+    helpers = {'equal': _equal, 'urlify': _urlify, 'getLanguageTitle' : _getLanguageTitleInNativeLanguage}
 
-    render = handlebarsTemplate(nameValueData, helpers=helpers)
+    languageRadioPartial = compiler.compile(_languageRadioPartial())
+
+    partials = { 'languageRadio' : languageRadioPartial}
+
+    render = handlebarsTemplate(nameValueData, helpers = helpers, partials = partials)
 
     return render
