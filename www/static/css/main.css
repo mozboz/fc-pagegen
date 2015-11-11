@@ -339,7 +339,15 @@ input[type="radio"].toggle:checked + .btn--hollow {
 .icon--currency:before {
     content: "\e909";
 }
-
+.icon--communication:before {
+    content: "\e90a";
+}
+.icon--location:before {
+    content: "\e900";
+}
+.icon--breaking-news:before {
+    content: "\e90b";
+}
 
 /* Copyright */
 
