@@ -10,6 +10,7 @@ from locationUtils import getEmptyLocationDataObject, compileLocationDataToObjec
 def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
 
     #todo move out to config file
+    # tab in the sheet where all data for all languages is compiled to
     allDataTab = "allDataTab"
 
     range = "B1:I200"
@@ -31,6 +32,7 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
                 language = languages[languageColumn]
                 locationData = getEmptyLocationDataObject(locationName)
 
+                #locationData object is updated here with the data from each language
                 compileLocationDataToObject(locationDataRaw, locationData, languageColumn, rows, cols, startRow)
 
                 renderedLocation = renderTemplate("templates/index.html", locationData)
@@ -51,6 +53,7 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
 
     return (sheetStatuses, languages.values())
 
+# Get the languages from the first row of a data range
 def getLanguages(locationDataRaw, rows, cols):
     languages = {}
     for colIndex in range(0,cols):

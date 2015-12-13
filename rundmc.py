@@ -19,9 +19,11 @@ locations = []
 languages = []
 
 for id in activeLocations:
-    sheetStatuses, renderedLanguages = renderSheet(locationRoot, credentialsFileName, id, activeLocations[id])
+    locationName = activeLocations[id]
+    sheetStatuses, renderedLanguages = renderSheet(locationRoot, credentialsFileName, id, locationName)
     allStatuses.extend(sheetStatuses)
     locations.append(activeLocations[id])
+    # add only new languages through a set union
     languages = list(set(languages) | set(renderedLanguages))
 
 print allStatuses

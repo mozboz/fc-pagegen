@@ -18,10 +18,10 @@ def compileLocationDataToObject(rawData, locationData, valueColumn, rows, column
     # process items in each section
     for key in d:
         # set defaults
-        o = {}
-        o[g.SECTION_TITLE_KEY] = key
-        o[g.CRITICAL_KEY] = g.HANDLEBARS_FALSE
-        o[g.SECTION_ITEMS_KEY] = []
+        newSection = {}
+        newSection[g.SECTION_TITLE_KEY] = key
+        newSection[g.CRITICAL_KEY] = g.HANDLEBARS_FALSE
+        newSection[g.SECTION_ITEMS_KEY] = []
 
         # Loop through items, if meta item set as property of the object, otherwise just add to list of section items
         for item in d[key]:
@@ -30,11 +30,11 @@ def compileLocationDataToObject(rawData, locationData, valueColumn, rows, column
             else:
                 # print "Adding: Section: " + key + ", itemType: " + item["type"] + ", value: " + item["value"]
                 if (item["type"] in g.SECTION_META_INFO):
-                    o[item["type"]] = item["value"]
+                    newSection[item["type"]] = item["value"]
                 else:
-                    o[g.SECTION_ITEMS_KEY].append(item)
+                    newSection[g.SECTION_ITEMS_KEY].append(item)
 
-        locationData[g.SECTIONS_KEY].append(o)
+        locationData[g.SECTIONS_KEY].append(newSection)
 
 
 def getEmptyLocationDataObject(locationName):

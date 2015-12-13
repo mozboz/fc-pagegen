@@ -3,6 +3,7 @@ from oauth2client.client import SignedJwtAssertionCredentials
 import gspread
 
 # Load a given range from a Google Sheet
+# returns data in a one dimensional list
 def loadRangeFromSheet(sheetKey, sheetTab, cellRange, credentialsFileName):
 
     jsonKey = json.load(open(credentialsFileName))
@@ -18,14 +19,15 @@ def loadRangeFromSheet(sheetKey, sheetTab, cellRange, credentialsFileName):
 
     return cellList
 
-# parse master sheet to get all active sheet IDs and names
+# Parse master sheet to get all active sheet IDs (dict key) and names (dict value)
 def getActiveLocationsFromMasterSheet(sheetKey, credentialsFileName):
 
     data = loadRangeFromSheet(sheetKey, "Locations", "A3:D100", credentialsFileName)
 
     rows = 98
-    cols = 4
+    rowWidth = 4
 
+    # Index in the row of fields we're interested in getting
     nameIndex = 0
     activeIndex = 1
     IDIndex = 3
@@ -33,8 +35,8 @@ def getActiveLocationsFromMasterSheet(sheetKey, credentialsFileName):
     activeSheets = {}
 
     for rowIndex in range(0,rows):
-        if (data[rowIndex*cols + activeIndex].value == "Y"):
-            activeSheets[data[rowIndex*cols + IDIndex].value ] = data[rowIndex*cols + nameIndex].value
+        if (data[rowIndex*rowWidth + activeIndex].value == "Y"):
+            activeSheets[data[rowIndex*rowWidth + IDIndex].value ] = data[rowIndex*rowWidth + nameIndex].value
 
     return activeSheets
 
