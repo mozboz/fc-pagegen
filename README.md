@@ -4,17 +4,13 @@ Written for use in the first-contact.org websites, generates HTML by reading val
 
 Maintains the simplicity of handlebars for templating, and flexibility of Google Sheets for recording information in different formats.
 
-Requires python2 to render, apache2 & php to serve.
+Requires python2 to render, apache2 & php to serve. If you're not using apache, you'll need to do some URL rewriting in your chosen httpd according to the mod_rewrite rules in www/.htaccess
 
 ```
-sudo pip install oauth2client
-sudo pip install pymeta
-sudo pip install pybars3
 sudo apt-get install python-dev
 sudo apt-get install libffi-dev
-sudo pip install PyOpenSSL
-sudo pip install gspread
-sudo pip install json-delta
+
+pip install -r requirements.txt
 ```
 
 For web server setup, ensure mod_rewrite is on and 'AllowOverride' is allowed for your web directory.
