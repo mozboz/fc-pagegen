@@ -7,9 +7,9 @@ import unittest
 # unittest.main()
 
 # test handlebars partial and helpers for home page
-# print renderTemplate("templates/landing_page.html", {'languageShortCode': 'en'})
+print renderTemplate("templates/landing_page.html", {'languageShortCode': ['en'], "locations" : ["Lesbos", "Notara 26"]})
 
 # test rendering home page with test data
-print rednerTemplate("templates/landing_page.html",
-        {'languageShortCodes' : [{'language'}]}
-)
+#print renderTemplate("templates/landing_page.html",
+#        {'languageShortCodes' : [{'language'}]}
+#)

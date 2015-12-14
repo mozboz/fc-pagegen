@@ -12,7 +12,6 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
     #todo move out to config file
     # tab in the sheet where all data for all languages is compiled to
     allDataTab = "allDataTab"
-
     range = "B1:I200"
     cols = 8
     rows = 200
@@ -42,16 +41,27 @@ def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
                 with codecs.open(outputFileName, "w", encoding="utf-8") as f:
                     f.write(renderedLocation)
 
-                sheetStatuses.append({"location" : locationName, "language" : language, "status" : "success"})
-                successfullyRenderedLanguages.extend(language)
+                sheetStatuses.append({
+                    "location" : locationName,
+                    "language" : language,
+                    "status" : "success",
+                    "renderFileName" : outputFileName
+                })
+
+                successfullyRenderedLanguages.append(language)
             except:
-                sheetStatuses.append({"location" : locationName, "language" : language, "status" : "error: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1])})
+                sheetStatuses.append({
+                    "location" : locationName,
+                    "language" : language,
+                    "status" : "error",
+                    "errorMessage" : repr(sys.exc_info()[0]) + repr(sys.exc_info()[1])
+                })
 
 
     except:
         sheetStatuses.append({"location" : locationName, "status" : "Fail loading sheet: " + repr(sys.exc_info()[0]) + repr(sys.exc_info()[1]) + " key: " + sheetKey})
 
-    return (sheetStatuses, languages.values())
+    return (sheetStatuses, successfullyRenderedLanguages)
 
 # Get the languages from the first row of a data range
 def getLanguages(locationDataRaw, rows, cols):

@@ -2,3 +2,4 @@
 pagegen.iml
 google-drive-creds.json
 *.pyc
+www/*
