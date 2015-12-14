@@ -20,23 +20,21 @@ def loadRangeFromSheet(sheetKey, sheetTab, cellRange, credentialsFileName):
     return cellList
 
 # Parse master sheet to get all active sheet IDs (dict key) and names (dict value)
-def getActiveLocationsFromMasterSheet(sheetKey, credentialsFileName):
+def getActiveLocationsFromMasterSheet(sheetKey, credentialsFileName, masterSheetConfiguration):
 
-    data = loadRangeFromSheet(sheetKey, "Locations", "A3:D100", credentialsFileName)
-
-    rows = 98
-    rowWidth = 4
-
-    # Index in the row of fields we're interested in getting
-    nameIndex = 0
-    activeIndex = 1
-    IDIndex = 3
+    data = loadRangeFromSheet(sheetKey, "Locations", masterSheetConfiguration['range'], credentialsFileName)
 
     activeSheets = {}
 
-    for rowIndex in range(0,rows):
-        if (data[rowIndex*rowWidth + activeIndex].value == "Y"):
-            activeSheets[data[rowIndex*rowWidth + IDIndex].value ] = data[rowIndex*rowWidth + nameIndex].value
+    rowCount = masterSheetConfiguration['rowCount']
+    rowWidth = masterSheetConfiguration['rowWidth']
+
+    for rowIndex in range(0,rowCount):
+        if (data[rowIndex*rowWidth + masterSheetConfiguration['isActiveColumn']].value == "Y"):
+            activeSheets[
+                data[rowIndex*rowWidth + masterSheetConfiguration['sheetIDColumn']].value
+            ] =\
+                data[rowIndex*rowWidth + masterSheetConfiguration['nameColumn']].value
 
     return activeSheets
 

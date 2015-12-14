@@ -12,7 +12,10 @@ masterSheetKeyDemo = "1lAUfDjwsoVPajFUInvAY-6uDnfmEuQcXCWNUQzJZPiw"
 
 masterSheetKey = masterSheetKeyDemo
 
-activeLocations = getActiveLocationsFromMasterSheet(masterSheetKey, credentialsFileName)
+# Where information is contained in the master sheet.
+masterSheetConfiguration = {"range": "B3:E100", "rowCount" : 98, "rowWidth": 4, "nameColumn" : 0, "isActiveColumn" : 1, "sheetIDColumn" : 3}
+
+activeLocations = getActiveLocationsFromMasterSheet(masterSheetKey, credentialsFileName, masterSheetConfiguration)
 
 allStatuses = []
 locations = []
