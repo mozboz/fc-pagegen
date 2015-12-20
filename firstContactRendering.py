@@ -7,6 +7,8 @@ from locationUtils import getEmptyLocationDataObject, compileLocationDataToObjec
 
 # Get data from spreadsheet, render with a template, and write out to file
 # Account from the credentials must have access ot the file
+from pybarscustom import _locationPartial
+
 def renderSheet(locationRoot, credentialsFileName, sheetKey, locationName):
 
     #todo move out to config file
@@ -102,8 +104,9 @@ def renderTemplate(templateFileName, nameValueData):
     helpers = {'equal': _equal, 'urlify': _urlify, 'getLanguageTitle' : _getLanguageTitleInNativeLanguage}
 
     languageRadioPartial = compiler.compile(_languageRadioPartial())
+    locationButtonPartial = compiler.compile(_locationPartial())
 
-    partials = { 'languageRadio' : languageRadioPartial}
+    partials = { 'languageRadio' : languageRadioPartial, 'locationButton' : locationButtonPartial}
 
     render = handlebarsTemplate(nameValueData, helpers = helpers, partials = partials)
 
